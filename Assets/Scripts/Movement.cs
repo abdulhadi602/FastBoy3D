@@ -23,6 +23,7 @@ public class Movement : MonoBehaviour
    
     public int MoveXspeed;
    
+
     public  float MoveX;
     private float _moveX;
     private float FinalXvalue;
