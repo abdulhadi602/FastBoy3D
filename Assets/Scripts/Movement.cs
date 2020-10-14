@@ -160,7 +160,7 @@ public class Movement : MonoBehaviour
     }
 
 
-
+    
     void OnCollisionStay()
     {
         isGrounded = true;
@@ -169,7 +169,7 @@ public class Movement : MonoBehaviour
     {
         isGrounded = false;
     }
-
+  
         private void OnCollisionEnter(Collision collision)
         {
        
@@ -177,7 +177,7 @@ public class Movement : MonoBehaviour
             if (collision.collider.CompareTag("Dropped") || collision.collider.CompareTag("End"))
             {
             managerSC.GameOver();
-            Debug.Log("End");
+            //Debug.Log("End");
             return;
             }
 
@@ -199,11 +199,11 @@ public class Movement : MonoBehaviour
             //Debug.Log("Front");
             return;
         }
-        if (Mathf.Approximately(angle, 180))// Left
+       /** if (Mathf.Approximately(angle, 180))// Left
         {
            
 
-        }
+        }**/
             if (Mathf.Approximately(angle, 90))
             {
                 Vector3 cross = Vector3.Cross(Vector3.forward, hit);
@@ -224,15 +224,15 @@ public class Movement : MonoBehaviour
                 transform.position = new Vector3(collision.transform.position.x, transform.position.y, transform.position.z);
                 //Debug.Log("Touched Platform");
                 }
-                else if(cross.y>0 || cross.y<0)
+               /** else if(cross.y>0 || cross.y<0)
                 {
              
                 
-                /**playerSpeed = 0;
+                playerSpeed = 0;
                 managerSC.GameOver();
                 Debug.Log("Left or right side hit");
-                return;**/
-                }
+                return;
+                }**/
 
             }
         
