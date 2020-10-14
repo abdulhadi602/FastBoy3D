@@ -30,6 +30,8 @@ public class Movement : MonoBehaviour
     public  bool isChangingDirection;
 
     public Transform CubeMesh;
+
+    
     private void Start()
     {
         
@@ -49,7 +51,7 @@ public class Movement : MonoBehaviour
     }
     void Update()
     {
-        if (!isChangingDirection)
+       /** if (!isChangingDirection)
         {
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -65,8 +67,8 @@ public class Movement : MonoBehaviour
                     isChangingDirection = true;
               
             }
-        }else
-        {
+        }else**/
+        if(isChangingDirection){
             if (_moveX < 0)
             {
                 if (transform.position.x > FinalXvalue)
@@ -100,7 +102,7 @@ public class Movement : MonoBehaviour
 
 
         // Changes the height position of the player..
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+       /** if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
 
             rb.AddForce(jump * jumpForce, ForceMode.Impulse);
@@ -120,7 +122,7 @@ public class Movement : MonoBehaviour
         {
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 2, transform.localScale.z / 2);
 
-        }
+        }**/
     }
     public void MoveLeft()
     {
@@ -180,16 +182,13 @@ public class Movement : MonoBehaviour
             }
 
 
-            // Raycasting to determine what side of the brick the ball hits
-            Ray myRay = new Ray(transform.position, collision.gameObject.transform.position);
-            RaycastHit myRayHit;
-
-            Physics.Raycast(myRay, out myRayHit);
+          
+          
             Vector2 hit = collision.contacts[0].normal;
 
             float angle = Vector3.Angle(Vector3.forward, hit);
-            Debug.Log("angle : " + angle);
-            Debug.DrawRay(transform.position, collision.gameObject.transform.position, Color.red);
+            //Debug.Log("angle : " + angle);
+            //Debug.DrawRay(transform.position, collision.gameObject.transform.position, Color.red);
 
 
         if (Mathf.Approximately(angle, 0))// front
@@ -197,7 +196,7 @@ public class Movement : MonoBehaviour
             //Debug.Log("front");
             playerSpeed = 0;
             managerSC.GameOver();
-            Debug.Log("Front");
+            //Debug.Log("Front");
             return;
         }
         if (Mathf.Approximately(angle, 180))// Left
@@ -208,7 +207,7 @@ public class Movement : MonoBehaviour
             if (Mathf.Approximately(angle, 90))
             {
                 Vector3 cross = Vector3.Cross(Vector3.forward, hit);
-                Debug.Log("Cross " + cross);
+               // Debug.Log("Cross " + cross);
                 if (cross.x > 0)
                 {
 
@@ -218,12 +217,12 @@ public class Movement : MonoBehaviour
                 //Top
                 playerSpeed = 0;
                 managerSC.GameOver();
-                Debug.Log("Hit Top");
+               // Debug.Log("Hit Top");
                 return;
                 }else if (cross.x < 0)
                 {
                 transform.position = new Vector3(collision.transform.position.x, transform.position.y, transform.position.z);
-                Debug.Log("Touched Platform");
+                //Debug.Log("Touched Platform");
                 }
                 else if(cross.y>0 || cross.y<0)
                 {
