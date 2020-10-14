@@ -174,12 +174,6 @@ public class Movement : MonoBehaviour
         {
        
 
-            if (collision.collider.CompareTag("Dropped") || collision.collider.CompareTag("End"))
-            {
-            managerSC.GameOver();
-            //Debug.Log("End");
-            return;
-            }
 
 
           
@@ -243,6 +237,12 @@ public class Movement : MonoBehaviour
         {
             Camera.main.GetComponent<FollowPlayer>().enabled=false;
             move *= 2;
+        }
+        else if (other.CompareTag("Dropped") || other.CompareTag("End"))
+        {
+            managerSC.GameOver();
+            //Debug.Log("End");
+            return;
         }
     }
 }
