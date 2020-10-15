@@ -5063,7 +5063,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Time: 0.25
+  m_Time: 0.5
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -24533,7 +24533,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1631206094
 Transform:
   m_ObjectHideFlags: 0
@@ -24602,7 +24602,7 @@ TrailRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10651, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -24623,7 +24623,7 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.25
+  m_Time: 0.5
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -34754,14 +34754,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 25
-  jump: {x: 0, y: 1, z: 0}
-  jumpForce: 20
-  isGrounded: 0
   GameManager: {fileID: 0}
   MoveXspeed: 20
-  MoveX: 5.5
+  MoveX: 3
   isChangingDirection: 0
   CubeMesh: {fileID: 7823167402509924527}
+  hopHeight: 5
+  timeToCompleteJump: 0.25
+  jumpDistance: 8
 --- !u!65 &7823167403225949280
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -34782,13 +34782,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7823167403225949293}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1a1d48b836fff74db097b4f5426a331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fallMultiplier: 12
-  lowJumpMultiplier: 8
+  lowJumpMultiplier: 12
 --- !u!1001 &1797108058
 PrefabInstance:
   m_ObjectHideFlags: 0

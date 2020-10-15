@@ -10,11 +10,11 @@ public class Movement : MonoBehaviour
  
     
     Vector3 move;
-    private Rigidbody rb;
-    public Vector3 jump;
-    public float jumpForce = 2.0f;
+    public static Rigidbody rb;
+    public static Vector3 jump;
+    public static float jumpForce = 25;
 
-    public bool isGrounded;
+    public static bool isGrounded;
 
 
     public GameObject GameManager;
@@ -31,7 +31,10 @@ public class Movement : MonoBehaviour
 
     public Transform CubeMesh;
 
-    
+    public float hopHeight = 1.25f;
+    public float timeToCompleteJump = 0.24f;
+    public float jumpDistance = 4f;
+    private bool hopping = false;
     private void Start()
     {
         
@@ -102,27 +105,28 @@ public class Movement : MonoBehaviour
 
 
         // Changes the height position of the player..
-       /** if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
-        {
+        /** if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+         {
 
-            rb.AddForce(jump * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
-        }
-
-
+             rb.AddForce(jump * jumpForce, ForceMode.Impulse);
+             isGrounded = false;
+         }
 
 
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / 2, transform.localScale.z * 2);
 
-        }
-        else if (Input.GetKeyUp(KeyCode.E))
-        {
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 2, transform.localScale.z / 2);
 
-        }**/
+         if (Input.GetKeyDown(KeyCode.E))
+         {
+             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / 2, transform.localScale.z * 2);
+
+         }
+         else if (Input.GetKeyUp(KeyCode.E))
+         {
+             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 2, transform.localScale.z / 2);
+
+         }**/
+     
     }
     public void MoveLeft()
     {
@@ -142,14 +146,7 @@ public class Movement : MonoBehaviour
             isChangingDirection = true;
         }
     }
-    public void Jump()
-    {
-        if (isGrounded)
-        {
-            rb.AddForce(jump * jumpForce, ForceMode.Impulse);
-            isGrounded = false;
-        }
-    }
+ 
     public void SqueezeDown()
     {
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / 2, transform.localScale.z * 2);
@@ -158,19 +155,38 @@ public class Movement : MonoBehaviour
     {
         transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 2, transform.localScale.z / 2);
     }
+    public void SineJump()
+    {
+        if (transform.position.y > -3f )
+        {
+            Vector3 pos = new Vector3(transform.position.x, transform.position.y, transform.position.z + jumpDistance);
+
+            StartCoroutine(Hop(pos, timeToCompleteJump));
+        }
+    }
+
+    IEnumerator Hop(Vector3 dest, float time)
+    {
+        if (hopping) yield break;
+
+        hopping = true;
+        var startPos = transform.position;
+        var timer = 0.0f;
+
+        while (timer <= 1.0f)
+        {
+            var height = Mathf.Sin(Mathf.PI * timer) * hopHeight;
+            transform.position = Vector3.Lerp(startPos, dest, timer) + Vector3.up * height;
+
+            timer += Time.deltaTime / time;
+            yield return null;
+        }
+        hopping = false;
+    }
 
 
-    
-    void OnCollisionStay()
-    {
-        isGrounded = true;
-    }
-    void OnCollisionExit()
-    {
-        isGrounded = false;
-    }
-  
-        private void OnCollisionEnter(Collision collision)
+
+    private void OnCollisionEnter(Collision collision)
         {
        
 
@@ -213,12 +229,14 @@ public class Movement : MonoBehaviour
                 managerSC.GameOver();
                // Debug.Log("Hit Top");
                 return;
-                }else if (cross.x < 0)
+                }
+                /**else if (cross.x < 0)
                 {
+                //kEEP the square in center of track
                 transform.position = new Vector3(collision.transform.position.x, transform.position.y, transform.position.z);
                 //Debug.Log("Touched Platform");
                 }
-               /** else if(cross.y>0 || cross.y<0)
+                 else if(cross.y>0 || cross.y<0)
                 {
              
                 
