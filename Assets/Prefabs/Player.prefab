@@ -34695,10 +34695,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7823167403225949287}
-  - component: {fileID: 7823167403225949283}
   - component: {fileID: 7823167403225949282}
   - component: {fileID: 7823167403225949280}
-  - component: {fileID: 51584296}
+  - component: {fileID: 1393490578}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -34725,7 +34724,44 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &7823167403225949283
+--- !u!114 &7823167403225949282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7823167403225949293}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0ae634af55686c40a50ad5f10d72fc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerSpeed: 25
+  isGrounded: 0
+  GameManager: {fileID: 0}
+  MoveXspeed: 20
+  MoveX: 3
+  isChangingDirection: 0
+  CubeMesh: {fileID: 7823167402509924527}
+  hopHeight: 5
+  timeToCompleteJump: 0.35
+  jumpDistance: 8
+  isJumping: 0
+  LaneRender: {fileID: 0}
+--- !u!65 &7823167403225949280
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7823167403225949293}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!54 &1393490578
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -34740,55 +34776,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
---- !u!114 &7823167403225949282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7823167403225949293}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0ae634af55686c40a50ad5f10d72fc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerSpeed: 25
-  GameManager: {fileID: 0}
-  MoveXspeed: 20
-  MoveX: 3
-  isChangingDirection: 0
-  CubeMesh: {fileID: 7823167402509924527}
-  hopHeight: 5
-  timeToCompleteJump: 0.25
-  jumpDistance: 8
---- !u!65 &7823167403225949280
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7823167403225949293}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0.5, z: 0}
---- !u!114 &51584296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7823167403225949293}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1a1d48b836fff74db097b4f5426a331, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fallMultiplier: 12
-  lowJumpMultiplier: 12
+  m_CollisionDetection: 0
 --- !u!1001 &1797108058
 PrefabInstance:
   m_ObjectHideFlags: 0

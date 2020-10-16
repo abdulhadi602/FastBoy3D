@@ -5,7 +5,7 @@ using UnityEngine;
 public class SmartJump : MonoBehaviour
 {
  
-    void OnTriggerStay()
+   /** void OnTriggerStay()
     {
         Movement.isGrounded = true;
     }
@@ -20,6 +20,6 @@ public class SmartJump : MonoBehaviour
             Movement.rb.AddForce(Movement.jump * Movement.jumpForce, ForceMode.Impulse);
             Movement.isGrounded = false;
         }
-    }
+    }**/
 
 }
