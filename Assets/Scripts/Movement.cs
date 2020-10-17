@@ -130,6 +130,7 @@ public class Movement : MonoBehaviour
                     {
                         isChangingDirection = false;
                         Move = new Vector3(0, 0, 1);
+                        transform.position = new Vector3(FinalXvalue, transform.position.y, transform.position.z);
                         CubeMesh.rotation = Quaternion.identity;
                     }
                 }
@@ -144,6 +145,7 @@ public class Movement : MonoBehaviour
                     {
                         isChangingDirection = false;
                         Move = new Vector3(0, 0, 1);
+                        transform.position = new Vector3(FinalXvalue, transform.position.y, transform.position.z);
                         CubeMesh.rotation = Quaternion.identity;
                     }
                 }
@@ -255,6 +257,7 @@ public class Movement : MonoBehaviour
         LaneRender.gameObject.SetActive(true);
         LaneRender.localScale = new Vector3(transform.lossyScale.x*1.5f, collision.transform.localScale.y, collision.transform.localScale.z);
         LaneRender.position = new Vector3(transform.position.x, collision.transform.position.y + 0.01f, collision.transform.position.z+0.1f);
+       
     }
     private void OnCollisionExit(Collision collision)
     {
@@ -322,6 +325,7 @@ public class Movement : MonoBehaviour
         }else if (collision.collider.CompareTag("Ground") && isJumping)
         {
             ResetJump();
+            transform.position = new Vector3(collision.transform.position.x, transform.position.y, transform.position.z);
         }
     }
 
