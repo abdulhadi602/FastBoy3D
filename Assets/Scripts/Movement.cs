@@ -45,6 +45,8 @@ public class Movement : MonoBehaviour
     private static bool isFalling;
 
     public Transform LaneRender;
+
+    private ParticleSystem BreakCoin;
     private void Start()
     {
 
@@ -55,6 +57,7 @@ public class Movement : MonoBehaviour
         isJumping = false;
         managerSC = GameManager.GetComponent<Manager>();
         isFalling = false;
+        BreakCoin = transform.Find("BreakCoin").GetComponent<ParticleSystem>();
     }
     private void FixedUpdate()
     {
@@ -324,6 +327,7 @@ public class Movement : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+    
        
         if (other.CompareTag("NearEnd"))
         {
@@ -335,6 +339,28 @@ public class Movement : MonoBehaviour
             managerSC.GameOver();
             //Debug.Log("End");
             return;
+        }
+    }
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Coin"))
+        {
+            if (other.transform.localScale.z < 0.5f)
+            {
+                BreakCoin.Stop();
+                Destroy(other.gameObject);
+                return;
+            }
+            BreakCoin.Play();
+            other.transform.localScale -= Vector3.forward * 0.25f;
+            other.transform.position += Vector3.forward * 0.25f;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Coin"))
+        {
+            BreakCoin.Stop();
         }
     }
 }

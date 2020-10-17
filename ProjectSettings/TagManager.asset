@@ -8,6 +8,7 @@ TagManager:
   - NearEnd
   - End
   - Ground
+  - Coin
   layers:
   - Default
   - TransparentFX
