@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 public class Manager : MonoBehaviour
 {
     public  GameObject GameOverCanvas,GameStartCanvas;
-   
+    public GameObject LevelSlider;
     private void Start()
     {
         GameStartCanvas.SetActive(true);
-   
+        LevelSlider.SetActive(false);
         Time.timeScale = 0;
     }
     private void Update()
@@ -31,6 +31,7 @@ public class Manager : MonoBehaviour
     }
     public void StartGame()
     {
+        LevelSlider.SetActive(true);
         GameStartCanvas.SetActive(false);
         Time.timeScale = 1;
     }

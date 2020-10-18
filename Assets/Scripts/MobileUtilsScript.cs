@@ -9,7 +9,10 @@ public class MobileUtilsScript : MonoBehaviour
     private string fps;
 
     public Text Fpstxt;
-
+    private int lastFrameCount;
+    private float lastTime;
+    private float timeSpan;
+    private int frameCount;
     void Start()
     {
         StartCoroutine(FPS());
@@ -20,11 +23,11 @@ public class MobileUtilsScript : MonoBehaviour
         for (; ; )
         {
             // Capture frame-per-second
-            int lastFrameCount = Time.frameCount;
-            float lastTime = Time.realtimeSinceStartup;
+            lastFrameCount = Time.frameCount;
+            lastTime = Time.realtimeSinceStartup;
             yield return new WaitForSeconds(frequency);
-            float timeSpan = Time.realtimeSinceStartup - lastTime;
-            int frameCount = Time.frameCount - lastFrameCount;
+            timeSpan = Time.realtimeSinceStartup - lastTime;
+            frameCount = Time.frameCount - lastFrameCount;
 
             // Display it
 

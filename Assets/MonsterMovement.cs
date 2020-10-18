@@ -11,7 +11,7 @@ public class MonsterMovement : MonoBehaviour
 
 
 
-    public bool isGrounded;
+    
 
 
     public GameObject GameManager;
@@ -28,19 +28,9 @@ public class MonsterMovement : MonoBehaviour
 
   
 
-    public float hopHeight = 1.25f;
-    public float timeToCompleteJump = 0.24f;
-    public float jumpDistance = 4f;
-    //private bool hopping = false;
-
-    public bool isJumping;
 
 
-    private static Vector3 startPos;
-    private float timer = 0.0f;
-    Vector3 dest;
 
-    private static bool isFalling;
 
     public Transform LaneRender;
 
@@ -48,58 +38,34 @@ public class MonsterMovement : MonoBehaviour
 
     public Text Score;
     private static int scoreCounter;
+
+    private AudioSource bubblepop;
     private void Start()
     {
+        bubblepop = GetComponent<AudioSource>();
         scoreCounter = 0;
         Move = new Vector3(0, 0, 1);
 
         Score.text = "0";
 
-        isJumping = false;
+    
         managerSC = GameManager.GetComponent<Manager>();
-        isFalling = false;
+      
         BreakCoin = transform.Find("BreakCoin").GetComponent<ParticleSystem>();
     }
     private void FixedUpdate()
     {
-        if (!isFalling)
-        {
-            if (timer <= 1.0 && isJumping)
-            {
-
-                var height = Mathf.Sin(Mathf.PI * timer) * hopHeight;
-                transform.position = Vector3.Lerp(startPos, dest, timer) + Vector3.up * height;
-
-                timer += Time.deltaTime / timeToCompleteJump;
-
-            }
-            else if (timer > 1.0)
-            {
-
-                ResetJump();
-            }
-            if (!isJumping)
-            {
-                transform.position += Move * Time.deltaTime * playerSpeed;
-            }
-        }
-        else
-        {
-            transform.position += Vector3.down * Time.deltaTime * playerSpeed;
-        }
+        
+            transform.position += Move * Time.deltaTime * playerSpeed;
+        
 
     }
-    private void ResetJump()
-    {
-        isJumping = false;
-        timer = 0;
-    }
+
     void Update()
     {
         LaneRender.position = new Vector3(transform.position.x, -2.845f, transform.position.z - 30f);
 
-        if (!isFalling)
-        {
+       
             if (isChangingDirection)
             {
                 if (_moveX < 0)
@@ -135,7 +101,7 @@ public class MonsterMovement : MonoBehaviour
                 }
             }
 
-        }
+        
 
      
 
@@ -159,24 +125,7 @@ public class MonsterMovement : MonoBehaviour
         }
     }
 
-    public void SqueezeDown()
-    {
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y / 2, transform.localScale.z * 2);
-    }
-    public void SqueezeUp()
-    {
-        transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 2, transform.localScale.z / 2);
-    }
-    public void SineJump()
-    {
-        if (!isJumping)
-        {
-            isJumping = true;
-            startPos = transform.position;
-            dest = new Vector3(transform.position.x, transform.position.y, transform.position.z + jumpDistance);
-        }
-   
-    }
+
 
   
    
@@ -189,11 +138,7 @@ public class MonsterMovement : MonoBehaviour
             playerSpeed = 0;
             managerSC.GameOver();
         }
-        else if (collision.collider.CompareTag("Ground") && isJumping)
-        {
-            ResetJump();
-            transform.position = new Vector3(collision.transform.position.x, transform.position.y, transform.position.z);
-        }
+      
     }
 
     private void OnTriggerEnter(Collider other)
@@ -202,6 +147,7 @@ public class MonsterMovement : MonoBehaviour
 
         if (other.CompareTag("NearEnd"))
         {
+            LevelCompletionCalculator.LevelCompleted = true;
             Camera.main.GetComponent<FollowZ>().enabled = false;
             playerSpeed *= 2;
         }
@@ -213,18 +159,26 @@ public class MonsterMovement : MonoBehaviour
         }
         else if (other.CompareTag("Coin"))
         {
-            BreakCoin.Play();           
+            BreakCoin.Play();
+            bubblepop.Play();
         }
     }
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Coin"))
+       
+        if (other.CompareTag("Coin") )
         {
-            
-            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
-            scoreCounter++;
-            Score.text = ""+scoreCounter;
 
+
+            // other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+
+         
+
+                scoreCounter++;
+                Score.text = "" + scoreCounter;
+                other.transform.localScale -= Vector3.forward * 0.25f;
+                other.transform.position += Vector3.forward * 0.25f;
+                  
         }
     }
     private void OnTriggerExit(Collider other)
@@ -232,7 +186,14 @@ public class MonsterMovement : MonoBehaviour
         if (other.CompareTag("Coin"))
         {
             StartCoroutine(StopEffect());
-            Destroy(other.gameObject);
+            if (other.transform.localScale.z  <= 0.5)
+            {
+                Destroy(other.gameObject);
+            }
+            else
+            {             
+                Destroy(other.gameObject, 0.5f);
+            }
         }
     }
     private IEnumerator StopEffect()
