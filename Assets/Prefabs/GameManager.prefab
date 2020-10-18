@@ -11,12 +11,13 @@ GameObject:
   - component: {fileID: 6617455817905586021}
   - component: {fileID: 6617455817905586042}
   - component: {fileID: 1299877995}
+  - component: {fileID: 1299877996}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &6617455817905586021
 Transform:
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverCanvas: {fileID: 0}
   GameStartCanvas: {fileID: 0}
+  LevelSlider: {fileID: 0}
 --- !u!114 &1299877995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,3 +61,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Fpstxt: {fileID: 0}
+--- !u!114 &1299877996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6617455817905586043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b055e1b15f16029409f63d51cbb7b6a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LevelCompleteiontext: {fileID: 0}
+  LeveLCompletionBar: {fileID: 0}
+  Player: {fileID: 0}
+  End: {fileID: 0}
