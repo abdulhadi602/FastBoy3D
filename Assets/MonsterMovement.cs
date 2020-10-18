@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class MonsterMovement : MonoBehaviour
 {
     public float playerSpeed = 2.0f;
@@ -45,12 +45,15 @@ public class MonsterMovement : MonoBehaviour
     public Transform LaneRender;
 
     private ParticleSystem BreakCoin;
+
+    public Text Score;
+    private static int scoreCounter;
     private void Start()
     {
-
+        scoreCounter = 0;
         Move = new Vector3(0, 0, 1);
 
-
+        Score.text = "0";
 
         isJumping = false;
         managerSC = GameManager.GetComponent<Manager>();
@@ -93,7 +96,7 @@ public class MonsterMovement : MonoBehaviour
     }
     void Update()
     {
-       
+        LaneRender.position = new Vector3(transform.position.x, -2.845f, transform.position.z - 30f);
 
         if (!isFalling)
         {
@@ -104,15 +107,15 @@ public class MonsterMovement : MonoBehaviour
                     if (transform.position.x > FinalXvalue)
                     {
                         Move = new Vector3(_moveX * MoveXspeed * Time.fixedDeltaTime, 0, 1);
-                       
-                        //transform.rotation = Quaternion.Euler(0,-20, 0);
+                        transform.rotation = Quaternion.Euler(0, 0, 20);
+                     
                     }
                     else
                     {
                         isChangingDirection = false;
                         Move = new Vector3(0, 0, 1);
                         transform.position = new Vector3(FinalXvalue, transform.position.y, transform.position.z);
-                     
+                        transform.rotation = Quaternion.identity;
                     }
                 }
                 else if (_moveX > 0)
@@ -120,14 +123,14 @@ public class MonsterMovement : MonoBehaviour
                     if (transform.position.x < FinalXvalue)
                     {
                         Move = new Vector3(_moveX * MoveXspeed * Time.fixedDeltaTime, 0, 1);
-                      
+                        transform.rotation = Quaternion.Euler(0, 0, -20);
                     }
                     else
                     {
                         isChangingDirection = false;
                         Move = new Vector3(0, 0, 1);
                         transform.position = new Vector3(FinalXvalue, transform.position.y, transform.position.z);
-                    
+                        transform.rotation = Quaternion.identity;
                     }
                 }
             }
@@ -176,17 +179,8 @@ public class MonsterMovement : MonoBehaviour
     }
 
   
-    private void OnCollisionStay(Collision collision)
-    {
-        LaneRender.gameObject.SetActive(true);
-        LaneRender.localScale = new Vector3(transform.lossyScale.x * 1.5f, collision.transform.localScale.y, collision.transform.localScale.z);
-        LaneRender.position = new Vector3(transform.position.x, collision.transform.position.y + 0.01f, collision.transform.position.z + 0.1f);
-
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        LaneRender.gameObject.SetActive(false);
-    }
+   
+  
   
     private void OnCollisionEnter(Collision collision)
     {
@@ -208,7 +202,7 @@ public class MonsterMovement : MonoBehaviour
 
         if (other.CompareTag("NearEnd"))
         {
-            Camera.main.GetComponent<FollowPlayer>().enabled = false;
+            Camera.main.GetComponent<FollowZ>().enabled = false;
             playerSpeed *= 2;
         }
         else if (other.CompareTag("Dropped") || other.CompareTag("End"))
@@ -217,28 +211,36 @@ public class MonsterMovement : MonoBehaviour
             //Debug.Log("End");
             return;
         }
-
+        else if (other.CompareTag("Coin"))
+        {
+            BreakCoin.Play();           
+        }
     }
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Coin"))
         {
-            if (other.transform.localScale.z < 0.5f)
-            {
-                BreakCoin.Stop();
-                Destroy(other.gameObject);
-                return;
-            }
-            BreakCoin.Play();
-            other.transform.localScale -= Vector3.forward * 0.35f;
-            other.transform.position += Vector3.forward * 0.35f;
+            
+            other.gameObject.GetComponent<MeshRenderer>().enabled = false;
+            scoreCounter++;
+            Score.text = ""+scoreCounter;
+
         }
     }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Coin"))
         {
-            BreakCoin.Stop();
+            StartCoroutine(StopEffect());
+            Destroy(other.gameObject);
         }
     }
+    private IEnumerator StopEffect()
+    {
+        yield return new WaitForSeconds(0.25f);
+        BreakCoin.Stop();
+    }
+  
+   
+
 }
