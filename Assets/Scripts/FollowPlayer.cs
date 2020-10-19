@@ -13,6 +13,8 @@ public class FollowPlayer : MonoBehaviour
 
     public float smoothSpeed = 0.125f;
     public Vector3 offset;
+    private Vector3 desiredPosition;
+    private Vector3 smoothedPosition;
     void Start()
     {
         
@@ -27,8 +29,8 @@ public class FollowPlayer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 desiredPosition = Player.position + offset;
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+         desiredPosition = Player.position + offset;
+         smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = smoothedPosition;
 
        // transform.LookAt(Player);

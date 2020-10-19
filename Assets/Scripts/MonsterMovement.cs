@@ -39,10 +39,16 @@ public class MonsterMovement : MonoBehaviour
     public Text Score;
     private static int scoreCounter;
 
-    private AudioSource bubblepop;
+    
+    private AudioSource[] sounds;
+    public Transform DeathEffect;
+    private ParticleSystem DeathParticles;
+
+    private static bool isDead;
     private void Start()
     {
-        bubblepop = GetComponent<AudioSource>();
+        sounds = GetComponents<AudioSource>();
+       
         scoreCounter = 0;
         Move = new Vector3(0, 0, 1);
 
@@ -52,20 +58,26 @@ public class MonsterMovement : MonoBehaviour
         managerSC = GameManager.GetComponent<Manager>();
       
         BreakCoin = transform.Find("BreakCoin").GetComponent<ParticleSystem>();
+
+        DeathParticles = DeathEffect.GetComponent<ParticleSystem>();
+        isDead = false;
     }
     private void FixedUpdate()
     {
-        
+        if (!isDead)
+        {
             transform.position += Move * Time.deltaTime * playerSpeed;
-        
+        }
 
     }
 
     void Update()
     {
-        LaneRender.position = new Vector3(transform.position.x, -2.845f, transform.position.z - 30f);
+        if (!isDead)
+        {
+            LaneRender.position = new Vector3(transform.position.x, -2.845f, transform.position.z - 30f);
 
-       
+
             if (isChangingDirection)
             {
                 if (_moveX < 0)
@@ -74,7 +86,7 @@ public class MonsterMovement : MonoBehaviour
                     {
                         Move = new Vector3(_moveX * MoveXspeed * Time.fixedDeltaTime, 0, 1);
                         transform.rotation = Quaternion.Euler(0, 0, 20);
-                     
+
                     }
                     else
                     {
@@ -101,8 +113,8 @@ public class MonsterMovement : MonoBehaviour
                 }
             }
 
-        
 
+        }
      
 
     }
@@ -136,9 +148,21 @@ public class MonsterMovement : MonoBehaviour
         if (!collision.collider.CompareTag("Ground"))
         {
             playerSpeed = 0;
-            managerSC.GameOver();
+
+            StartCoroutine(WaitForEffectToEnd(collision.transform));
         }
       
+    }
+
+    private IEnumerator WaitForEffectToEnd(Transform collision)
+    {
+        isDead = true;
+        transform.GetChild(0).gameObject.GetComponent<SkinnedMeshRenderer>().enabled = false;
+        DeathEffect.position = collision.position;
+        sounds[1].Play();
+        DeathParticles.Play();
+        yield return new WaitForSeconds(1.5f);
+        managerSC.GameOver();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -160,7 +184,8 @@ public class MonsterMovement : MonoBehaviour
         else if (other.CompareTag("Coin"))
         {
             BreakCoin.Play();
-            bubblepop.Play();
+            //bubblepop.Play();
+            sounds[0].Play();
         }
     }
     private void OnTriggerStay(Collider other)
