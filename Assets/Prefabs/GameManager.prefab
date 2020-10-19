@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6617455817905586021}
   - component: {fileID: 6617455817905586042}
-  - component: {fileID: 1299877995}
   - component: {fileID: 1299877996}
   m_Layer: 0
   m_Name: GameManager
@@ -47,20 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverCanvas: {fileID: 0}
   GameStartCanvas: {fileID: 0}
-  LevelSlider: {fileID: 0}
---- !u!114 &1299877995
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6617455817905586043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3d2efb56bd4dd348a40ab2e3543f89f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Fpstxt: {fileID: 0}
 --- !u!114 &1299877996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,6 +59,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LevelCompleteiontext: {fileID: 0}
-  LeveLCompletionBar: {fileID: 0}
   Player: {fileID: 0}
   End: {fileID: 0}

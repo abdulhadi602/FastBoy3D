@@ -7,9 +7,9 @@ public class LevelCompletionCalculator : MonoBehaviour
 {
     public static bool LevelCompleted;
     public Text LevelCompleteiontext;
-    private float percentageOfLevelCompleted;
+    
     private float Totaldist;
-    public Slider LeveLCompletionBar;
+    
     public Transform Player;
     public Transform End;
     private float currentPercentage;
@@ -28,12 +28,12 @@ public class LevelCompletionCalculator : MonoBehaviour
         {
             currentdist = Vector3.Distance(End.position, Player.position);
             currentPercentage = ((Totaldist- currentdist) / Totaldist) * 100;
-            LeveLCompletionBar.value = currentPercentage;
+            
             LevelCompleteiontext.text = (int)currentPercentage + "%";
         }
         else
         {
-            LeveLCompletionBar.value += 1;
+         
             LevelCompleteiontext.text = "100%";
         }
     }

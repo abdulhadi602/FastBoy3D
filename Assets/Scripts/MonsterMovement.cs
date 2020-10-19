@@ -148,7 +148,7 @@ public class MonsterMovement : MonoBehaviour
         if (other.CompareTag("NearEnd"))
         {
             LevelCompletionCalculator.LevelCompleted = true;
-            Camera.main.GetComponent<FollowZ>().enabled = false;
+            Camera.main.GetComponent<FollowPlayer>().enabled = false;
             playerSpeed *= 2;
         }
         else if (other.CompareTag("Dropped") || other.CompareTag("End"))
