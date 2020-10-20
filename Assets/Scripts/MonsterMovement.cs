@@ -44,9 +44,15 @@ public class MonsterMovement : MonoBehaviour
     public Transform DeathEffect;
     private ParticleSystem DeathParticles;
 
-    private static bool isDead;
+    private static bool isDead,isSmashTime;
+
+
+    private GameObject Smashobj;
+    private Slider smashSlider;
     private void Start()
     {
+        Smashobj = gameObject.transform.Find("Smash").gameObject;
+        smashSlider = Smashobj.transform.GetChild(0).GetComponent<Slider>();
         sounds = GetComponents<AudioSource>();
        
         scoreCounter = 0;
@@ -122,6 +128,7 @@ public class MonsterMovement : MonoBehaviour
     {
         if (!isChangingDirection)
         {
+            PlayMovementSound();
             _moveX = -MoveX;
             FinalXvalue = transform.position.x + _moveX;
             isChangingDirection = true;
@@ -131,14 +138,54 @@ public class MonsterMovement : MonoBehaviour
     {
         if (!isChangingDirection)
         {
+            PlayMovementSound();
             _moveX = MoveX;
             FinalXvalue = transform.position.x + _moveX;
             isChangingDirection = true;
         }
     }
+    private void PlayMovementSound()
+    {
+        if (!isSmashTime)
+        {
+            sounds[Random.Range(2, 5)].Play();
+        }
+    }
+    public void Smash()
+    {
+        if (!isChangingDirection)
+        {
 
-
-
+            StartCoroutine(FastDash());
+        }
+    }
+    private IEnumerator FastDash()
+    {
+       
+        Camera.main.GetComponent<FollowPlayer>().offset.z -= 10;
+        Camera.main.GetComponent<FollowPlayer>().offset.y += 10;
+        sounds[5].Play();
+        smashSlider.gameObject.SetActive(true);
+        smashSlider.value = 5f;
+        isSmashTime = true;
+        GetComponent<Animator>().speed *= 2;
+        transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        playerSpeed = 50;
+       
+        while (smashSlider.value > 0)
+        {
+            smashSlider.value -= Time.deltaTime;
+            yield return null;
+        }
+        Camera.main.GetComponent<FollowPlayer>().offset.z += 10;
+        Camera.main.GetComponent<FollowPlayer>().offset.y -= 10;
+        smashSlider.gameObject.SetActive(false);
+        smashSlider.value = 5f;
+        playerSpeed = 35;
+        GetComponent<Animator>().speed /= 2;
+        transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
+        isSmashTime = false;
+    }
   
    
   
@@ -147,9 +194,20 @@ public class MonsterMovement : MonoBehaviour
     {
         if (!collision.collider.CompareTag("Ground"))
         {
-            playerSpeed = 0;
+            if (!isSmashTime)
+            {
+                playerSpeed = 0;
 
-            StartCoroutine(WaitForEffectToEnd(collision.transform));
+                StartCoroutine(WaitForEffectToEnd(collision.transform));
+            }
+            else
+            {
+                transform.GetChild(0).transform.GetChild(1).GetComponent<ParticleSystem>().Play();
+                AudioSource[] blast = collision.gameObject.GetComponents<AudioSource>();
+                blast[Random.Range(0,2)].Play();
+                collision.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                Destroy(collision.gameObject, 0.5f);
+            }
         }
       
     }
@@ -157,7 +215,7 @@ public class MonsterMovement : MonoBehaviour
     private IEnumerator WaitForEffectToEnd(Transform collision)
     {
         isDead = true;
-        transform.GetChild(0).gameObject.GetComponent<SkinnedMeshRenderer>().enabled = false;
+        transform.GetChild(0).gameObject.SetActive(false);
         DeathEffect.position = collision.position;
         sounds[1].Play();
         DeathParticles.Play();
@@ -217,7 +275,7 @@ public class MonsterMovement : MonoBehaviour
             }
             else
             {             
-                Destroy(other.gameObject, 0.5f);
+                Destroy(other.gameObject);
             }
         }
     }
