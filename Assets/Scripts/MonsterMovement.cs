@@ -49,6 +49,10 @@ public class MonsterMovement : MonoBehaviour
 
     private GameObject Smashobj;
     private Slider smashSlider;
+
+    private float slowDownSpeedMultiplier = 5.5f;
+
+    public GameObject PowerSmash;
     private void Start()
     {
         Smashobj = gameObject.transform.Find("Smash").gameObject;
@@ -67,6 +71,7 @@ public class MonsterMovement : MonoBehaviour
 
         DeathParticles = DeathEffect.GetComponent<ParticleSystem>();
         isDead = false;
+        isSmashTime = false;
     }
     private void FixedUpdate()
     {
@@ -121,7 +126,7 @@ public class MonsterMovement : MonoBehaviour
 
 
         }
-     
+       
 
     }
     public void MoveLeft()
@@ -153,63 +158,89 @@ public class MonsterMovement : MonoBehaviour
     }
     public void Smash()
     {
-        if (!isChangingDirection)
+        if (!isChangingDirection && !isSmashTime)
         {
 
             StartCoroutine(FastDash());
+            PowerSmash.SetActive(false);
         }
     }
     private IEnumerator FastDash()
     {
-       
+        float cameraOffsetZ = Camera.main.GetComponent<FollowPlayer>().offset.z;
+        float cameraOffsetY = Camera.main.GetComponent<FollowPlayer>().offset.y;
         Camera.main.GetComponent<FollowPlayer>().offset.z -= 10;
-        Camera.main.GetComponent<FollowPlayer>().offset.y += 10;
+        Camera.main.GetComponent<FollowPlayer>().offset.y += 5;
         sounds[5].Play();
         smashSlider.gameObject.SetActive(true);
         smashSlider.value = 5f;
         isSmashTime = true;
         GetComponent<Animator>().speed *= 2;
+        transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false;
         transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+        transform.GetChild(0).transform.GetChild(2).GetComponent<ParticleSystem>().Stop();
         playerSpeed = 50;
        
         while (smashSlider.value > 0)
         {
             smashSlider.value -= Time.deltaTime;
+            if (smashSlider.value < 2.5)
+            {
+                Camera.main.GetComponent<FollowPlayer>().offset.z += Time.deltaTime * slowDownSpeedMultiplier;
+                Camera.main.GetComponent<FollowPlayer>().offset.y -= Time.deltaTime * 2;
+            }
             yield return null;
         }
-        Camera.main.GetComponent<FollowPlayer>().offset.z += 10;
-        Camera.main.GetComponent<FollowPlayer>().offset.y -= 10;
+        /**while (playerSpeed>35)
+        {
+           
+            yield return null;
+        }**/
+        Camera.main.GetComponent<FollowPlayer>().offset.z = cameraOffsetZ;
+        Camera.main.GetComponent<FollowPlayer>().offset.y = cameraOffsetY;
         smashSlider.gameObject.SetActive(false);
         smashSlider.value = 5f;
         playerSpeed = 35;
+        transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true;
         GetComponent<Animator>().speed /= 2;
+        transform.GetChild(0).transform.GetChild(2).GetComponent<ParticleSystem>().Play();
         transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
         isSmashTime = false;
     }
-  
+
    
-  
-  
+
+
     private void OnCollisionEnter(Collision collision)
     {
         if (!collision.collider.CompareTag("Ground"))
         {
             if (!isSmashTime)
             {
-                playerSpeed = 0;
-
-                StartCoroutine(WaitForEffectToEnd(collision.transform));
+                GameOver(collision.transform);
             }
             else
             {
                 transform.GetChild(0).transform.GetChild(1).GetComponent<ParticleSystem>().Play();
                 AudioSource[] blast = collision.gameObject.GetComponents<AudioSource>();
                 blast[Random.Range(0,2)].Play();
-                collision.gameObject.GetComponent<MeshRenderer>().enabled = false;
-                Destroy(collision.gameObject, 0.5f);
+                if (!collision.collider.CompareTag("Dropped"))
+                {
+                    collision.gameObject.GetComponent<MeshRenderer>().enabled = false;
+                    Destroy(collision.gameObject, 0.5f);
+                }
+                else
+                {
+                    GameOver(collision.transform);
+                }
             }
         }
       
+    }
+    private void GameOver(Transform collision)
+    {
+        playerSpeed = 0;
+        StartCoroutine(WaitForEffectToEnd(collision));
     }
 
     private IEnumerator WaitForEffectToEnd(Transform collision)
@@ -259,7 +290,11 @@ public class MonsterMovement : MonoBehaviour
 
                 scoreCounter++;
                 Score.text = "" + scoreCounter;
-                other.transform.localScale -= Vector3.forward * 0.25f;
+            if (scoreCounter % 40 == 0)
+            {
+                PowerSmash.SetActive(true);
+            }
+            other.transform.localScale -= Vector3.forward * 0.25f;
                 other.transform.position += Vector3.forward * 0.25f;
                   
         }
