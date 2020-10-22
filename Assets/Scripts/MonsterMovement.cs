@@ -50,8 +50,8 @@ public class MonsterMovement : MonoBehaviour
     private GameObject Smashobj;
     private Slider smashSlider;
 
-    private float slowDownSpeedMultiplier = 5.5f;
-
+    public float slowDownSpeedMultiplier = 5.5f;
+    public float smashTime = 2.5f;
     public GameObject PowerSmash;
     private void Start()
     {
@@ -173,7 +173,8 @@ public class MonsterMovement : MonoBehaviour
         Camera.main.GetComponent<FollowPlayer>().offset.y += 5;
         sounds[5].Play();
         smashSlider.gameObject.SetActive(true);
-        smashSlider.value = 5f;
+        smashSlider.maxValue = smashTime;
+        smashSlider.value = smashSlider.maxValue;
         isSmashTime = true;
         GetComponent<Animator>().speed *= 2;
         transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false;
@@ -184,10 +185,10 @@ public class MonsterMovement : MonoBehaviour
         while (smashSlider.value > 0)
         {
             smashSlider.value -= Time.deltaTime;
-            if (smashSlider.value < 2.5)
+            if (smashSlider.value < smashTime/2.5)
             {
                 Camera.main.GetComponent<FollowPlayer>().offset.z += Time.deltaTime * slowDownSpeedMultiplier;
-                Camera.main.GetComponent<FollowPlayer>().offset.y -= Time.deltaTime * 2;
+                Camera.main.GetComponent<FollowPlayer>().offset.y -= Time.deltaTime * slowDownSpeedMultiplier/2.5f;
             }
             yield return null;
         }
@@ -199,7 +200,7 @@ public class MonsterMovement : MonoBehaviour
         Camera.main.GetComponent<FollowPlayer>().offset.z = cameraOffsetZ;
         Camera.main.GetComponent<FollowPlayer>().offset.y = cameraOffsetY;
         smashSlider.gameObject.SetActive(false);
-        smashSlider.value = 5f;
+        smashSlider.value = smashTime;
         playerSpeed = 35;
         transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true;
         GetComponent<Animator>().speed /= 2;
