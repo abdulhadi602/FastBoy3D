@@ -887,11 +887,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1595515264948593470, guid: f85e04988aee098479f1014268fbfb85, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.845
+      value: -3.41
       objectReference: {fileID: 0}
     - target: {fileID: 1595515264948593470, guid: f85e04988aee098479f1014268fbfb85, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -176.02
+      value: 239
       objectReference: {fileID: 0}
     - target: {fileID: 1595515264948593470, guid: f85e04988aee098479f1014268fbfb85, type: 3}
       propertyPath: m_LocalRotation.x
@@ -928,6 +928,10 @@ PrefabInstance:
     - target: {fileID: 1871493850067122787, guid: f85e04988aee098479f1014268fbfb85, type: 3}
       propertyPath: m_Name
       value: LaneRenderer
+      objectReference: {fileID: 0}
+    - target: {fileID: 1871493850067122787, guid: f85e04988aee098479f1014268fbfb85, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f85e04988aee098479f1014268fbfb85, type: 3}

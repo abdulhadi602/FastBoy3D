@@ -86,7 +86,8 @@ public class MonsterMovement : MonoBehaviour
     {
         if (!isDead)
         {
-            LaneRender.position = new Vector3(transform.position.x, -2.845f, transform.position.z - 30f);
+            //The below line moves the red line with you on the map
+            //LaneRender.position = new Vector3(transform.position.x, -2.845f, transform.position.z - 30f);
 
 
             if (isChangingDirection)
@@ -291,7 +292,7 @@ public class MonsterMovement : MonoBehaviour
 
                 scoreCounter++;
                 Score.text = "" + scoreCounter;
-            if (scoreCounter % 40 == 0)
+            if (scoreCounter % 100 == 0)
             {
                 PowerSmash.SetActive(true);
             }
