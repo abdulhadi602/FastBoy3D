@@ -46,6 +46,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GameOverCanvas: {fileID: 0}
   GameStartCanvas: {fileID: 0}
+  TipsCanvas: {fileID: 0}
+  tips:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &1299877996
 MonoBehaviour:
   m_ObjectHideFlags: 0
