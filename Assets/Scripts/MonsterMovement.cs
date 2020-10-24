@@ -266,6 +266,10 @@ public class MonsterMovement : MonoBehaviour
             Camera.main.GetComponent<FollowPlayer>().enabled = false;
             playerSpeed *= 2;
         }
+        else if (other.CompareTag("End"))
+        {
+            managerSC.NextLevel();
+        }
         else if (other.CompareTag("Dropped") || other.CompareTag("End"))
         {
             managerSC.GameOver();

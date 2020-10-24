@@ -7,12 +7,23 @@ public class Manager : MonoBehaviour
 {
     public  GameObject GameOverCanvas,GameStartCanvas,TipsCanvas;
     public GameObject[] tips;
+
+    private static string TipsKey = "TipsRead";
     private void Start()
     {
         
         GameStartCanvas.SetActive(true);
       
         Time.timeScale = 0;
+        if (!PlayerPrefs.GetString(TipsKey).Equals("true"))
+        {
+            TipsCanvas.SetActive(true);
+            
+        }
+        else
+        {
+            TipsCanvas.SetActive(false);
+        }
     }
     private void Update()
     {
@@ -29,6 +40,10 @@ public class Manager : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
     }
     public void StartGame()
     {
@@ -56,8 +71,22 @@ public class Manager : MonoBehaviour
            
         }
     }
+    public void ShowTips()
+    {
+        TipsCanvas.SetActive(true);
+        Time.timeScale = 0;
+    }
     public void SkipTips()
     {
+        if (!PlayerPrefs.GetString(TipsKey).Equals("true"))
+        {
+            PlayerPrefs.SetString(TipsKey, "true");
+            PlayerPrefs.Save();
+        }
+        if (!GameStartCanvas.activeSelf)
+        {
+            Time.timeScale = 1;
+        }
         TipsCanvas.SetActive(false);
     }
 }

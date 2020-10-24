@@ -351,6 +351,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 508183740, guid: efac8aa95877c724396dc57a70707d4c, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1299877993}
     - target: {fileID: 556865861, guid: efac8aa95877c724396dc57a70707d4c, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1097,7 +1101,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 722032288, guid: db8dab55c226e044aadb2e3f287285ef, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: db8dab55c226e044aadb2e3f287285ef, type: 3}
 --- !u!1001 &3876789536033827201
 PrefabInstance:
