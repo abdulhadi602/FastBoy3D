@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class MonsterMovement : MonoBehaviour
 {
-    public float playerSpeed = 2.0f;
+    private float playerSpeed = 35;
 
 
     Vector3 Move;
@@ -14,17 +14,17 @@ public class MonsterMovement : MonoBehaviour
     
 
 
-    public GameObject GameManager;
+    private GameObject GameManager;
     private Manager managerSC;
 
 
-    public int MoveXspeed;
+    private int MoveXspeed = 10;
 
 
-    public float MoveX;
+    private float MoveX = 3;
     private float _moveX;
     private float FinalXvalue;
-    public bool isChangingDirection;
+    private bool isChangingDirection;
 
   
 
@@ -32,31 +32,51 @@ public class MonsterMovement : MonoBehaviour
 
 
 
-    public Transform LaneRender;
+  
 
     private ParticleSystem BreakCoin;
 
-    public Text Score;
+    private Text Score;
     private static int scoreCounter;
 
     
     private AudioSource[] sounds;
-    public Transform DeathEffect;
+    private Transform DeathEffect;
     private ParticleSystem DeathParticles;
 
     private static bool isDead,isSmashTime;
 
+    private static int SmashesAvailable;
 
-    private GameObject Smashobj;
-    private Slider smashSlider;
 
-    public float slowDownSpeedMultiplier = 5.5f;
-    public float smashTime = 2.5f;
-    public GameObject PowerSmash;
+  
+   
+
+    private float slowDownSpeedMultiplier = 8;
+    private float smashTime = 3.5f;
+    private GameObject PowerSmash;
+    private static float CurrentValue;
+
+    private Text SmashesAvailableTxt;
+
+
+    private static float cameraOffsetZ, cameraOffsetY;
+    private void Awake()
+    {
+        PowerSmash = GameObject.FindGameObjectWithTag("SmashBtn");
+        GameManager = GameObject.FindGameObjectWithTag("GameManager");
+        BreakCoin = GameObject.FindGameObjectWithTag("BreakCoin").GetComponent<ParticleSystem>();
+        Score = GameObject.FindGameObjectWithTag("Score").GetComponent<Text>();
+        DeathEffect = GameObject.FindGameObjectWithTag("DeathParticles").transform;
+        SmashesAvailableTxt = PowerSmash.transform.GetChild(1).GetComponent<Text>();
+    }
     private void Start()
     {
-        Smashobj = gameObject.transform.Find("Smash").gameObject;
-        smashSlider = Smashobj.transform.GetChild(0).GetComponent<Slider>();
+         cameraOffsetZ = Camera.main.GetComponent<FollowPlayer>().offset.z;
+         cameraOffsetY = Camera.main.GetComponent<FollowPlayer>().offset.y;
+        SmashesAvailable = 0;
+        PowerSmash.SetActive(false);
+        
         sounds = GetComponents<AudioSource>();
        
         scoreCounter = 0;
@@ -67,7 +87,7 @@ public class MonsterMovement : MonoBehaviour
     
         managerSC = GameManager.GetComponent<Manager>();
       
-        BreakCoin = transform.Find("BreakCoin").GetComponent<ParticleSystem>();
+    
 
         DeathParticles = DeathEffect.GetComponent<ParticleSystem>();
         isDead = false;
@@ -159,39 +179,71 @@ public class MonsterMovement : MonoBehaviour
     }
     public void Smash()
     {
-        if (!isChangingDirection && !isSmashTime)
+        if (!isChangingDirection && PowerSmash.transform.GetChild(0).GetComponent<RawImage>().color.a == 1 )
         {
-
+            StopCoroutine(FastDash());
+           
+      
+            
             StartCoroutine(FastDash());
-            PowerSmash.SetActive(false);
+           
+            if (SmashesAvailable> 0)
+            {
+                SmashesAvailableTxt.text = "" + SmashesAvailable;       
+            }
+            else
+            {
+                SmashesAvailable = 0;
+                PowerSmash.SetActive(false);
+
+            }
         }
     }
     private IEnumerator FastDash()
     {
-        float cameraOffsetZ = Camera.main.GetComponent<FollowPlayer>().offset.z;
-        float cameraOffsetY = Camera.main.GetComponent<FollowPlayer>().offset.y;
-        Camera.main.GetComponent<FollowPlayer>().offset.z -= 10;
-        Camera.main.GetComponent<FollowPlayer>().offset.y += 5;
+        SmashesAvailable--;
+        if (SmashesAvailable > 0)
+        {
+            Color a = PowerSmash.transform.GetChild(0).GetComponent<RawImage>().color;
+            a.a = 0.2f;
+            PowerSmash.transform.GetChild(0).GetComponent<RawImage>().color = a;
+        }
+  
+        Camera.main.GetComponent<FollowPlayer>().offset.z = cameraOffsetZ - 15;
+        Camera.main.GetComponent<FollowPlayer>().offset.y = cameraOffsetY + 5;
         sounds[5].Play();
-        smashSlider.gameObject.SetActive(true);
-        smashSlider.maxValue = smashTime;
-        smashSlider.value = smashSlider.maxValue;
+
+        CurrentValue = smashTime;
+       
         isSmashTime = true;
-        GetComponent<Animator>().speed *= 2;
+        GetComponent<Animator>().speed = 4;
         transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = false;
-        transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+       
+            transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystem>().Play();
+       
         transform.GetChild(0).transform.GetChild(2).GetComponent<ParticleSystem>().Stop();
         playerSpeed = 50;
        
-        while (smashSlider.value > 0)
+        while (CurrentValue > 0)
         {
-            smashSlider.value -= Time.deltaTime;
-            if (smashSlider.value < smashTime/2.5)
+            CurrentValue -= Time.deltaTime;
+            if (CurrentValue < smashTime/1.5)
             {
                 Camera.main.GetComponent<FollowPlayer>().offset.z += Time.deltaTime * slowDownSpeedMultiplier;
-                Camera.main.GetComponent<FollowPlayer>().offset.y -= Time.deltaTime * slowDownSpeedMultiplier/2.5f;
+                Camera.main.GetComponent<FollowPlayer>().offset.y -= Time.deltaTime * slowDownSpeedMultiplier/2.5f;            
+                
+            }
+            if (CurrentValue < smashTime / 1.25)
+            {
+                if (SmashesAvailable > 0)
+                {
+                    Color a = PowerSmash.transform.GetChild(0).GetComponent<RawImage>().color;
+                    a.a = 1f;
+                    PowerSmash.transform.GetChild(0).GetComponent<RawImage>().color = a;
+                }
             }
             yield return null;
+          
         }
         /**while (playerSpeed>35)
         {
@@ -200,14 +252,15 @@ public class MonsterMovement : MonoBehaviour
         }**/
         Camera.main.GetComponent<FollowPlayer>().offset.z = cameraOffsetZ;
         Camera.main.GetComponent<FollowPlayer>().offset.y = cameraOffsetY;
-        smashSlider.gameObject.SetActive(false);
-        smashSlider.value = smashTime;
+        isSmashTime = false;
+        
+        CurrentValue = smashTime;
         playerSpeed = 35;
         transform.GetChild(0).GetComponent<SkinnedMeshRenderer>().enabled = true;
-        GetComponent<Animator>().speed /= 2;
+        GetComponent<Animator>().speed = 2;
         transform.GetChild(0).transform.GetChild(2).GetComponent<ParticleSystem>().Play();
         transform.GetChild(0).transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
-        isSmashTime = false;
+        
     }
 
    
@@ -299,11 +352,43 @@ public class MonsterMovement : MonoBehaviour
             if (scoreCounter % 100 == 0)
             {
                 PowerSmash.SetActive(true);
+                PowerSmash.GetComponent<AudioSource>().Play();
+                SmashesAvailable++;
+                SmashesAvailableTxt.text = ""+SmashesAvailable;
+                StartCoroutine(NotifyPowerUp());
             }
             other.transform.localScale -= Vector3.forward * 0.25f;
                 other.transform.position += Vector3.forward * 0.25f;
                   
         }
+    }
+    private IEnumerator NotifyPowerUp()
+    {
+        Color a = PowerSmash.transform.GetChild(2).GetComponent<RawImage>().color;
+        a.a = 0f;
+        PowerSmash.transform.GetChild(2).GetComponent<RawImage>().color = a;
+        yield return new WaitForSeconds(0.15f);
+        a.a = 1f;
+        PowerSmash.transform.GetChild(2).GetComponent<RawImage>().color = a;
+        yield return new WaitForSeconds(0.15f);
+        a.a = 0f;
+        PowerSmash.transform.GetChild(2).GetComponent<RawImage>().color = a;
+        yield return new WaitForSeconds(0.15f);
+        a.a = 1f;
+        PowerSmash.transform.GetChild(2).GetComponent<RawImage>().color = a;
+        yield return new WaitForSeconds(0.15f);
+        a.a = 0f;
+        PowerSmash.transform.GetChild(2).GetComponent<RawImage>().color = a;
+        yield return new WaitForSeconds(0.15f);
+        a.a = 1f;
+        PowerSmash.transform.GetChild(2).GetComponent<RawImage>().color = a;
+        yield return new WaitForSeconds(0.15f);
+        a.a = 0f;
+        PowerSmash.transform.GetChild(2).GetComponent<RawImage>().color = a;
+        yield return new WaitForSeconds(0.15f);
+        a.a = 1f;
+        PowerSmash.transform.GetChild(2).GetComponent<RawImage>().color = a;
+
     }
     private void OnTriggerExit(Collider other)
     {

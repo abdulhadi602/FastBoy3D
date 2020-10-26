@@ -6,18 +6,26 @@ using UnityEngine.UI;
 public class LevelCompletionCalculator : MonoBehaviour
 {
     public static bool LevelCompleted;
-    public Text LevelCompleteiontext;
+    private Text LevelCompleteiontext;
     
     private float Totaldist;
     
-    public Transform Player;
-    public Transform End;
+    private Transform Player;
+    private Transform NearEnd;
     private float currentPercentage;
     private float currentdist;
-    // Start is called before the first frame update
+    // Start is scalled before the first frame update
+    private void Awake()
+    {
+        LevelCompleteiontext = GameObject.FindGameObjectWithTag("LevelCompletionText").GetComponent<Text>();
+        Player = GameObject.FindGameObjectWithTag("Player").transform;
+        NearEnd = GameObject.FindGameObjectWithTag("NearEnd").transform;
+    }
     void Start()
     {
-        Totaldist = Vector3.Distance(End.position, Player.position);
+       
+
+        Totaldist = Vector3.Distance(NearEnd.position, Player.position);
         LevelCompleted = false;
     }
 
@@ -26,7 +34,7 @@ public class LevelCompletionCalculator : MonoBehaviour
     {
         if (!LevelCompleted)
         {
-            currentdist = Vector3.Distance(End.position, Player.position);
+            currentdist = Vector3.Distance(NearEnd.position, Player.position);
             currentPercentage = ((Totaldist- currentdist) / Totaldist) * 100;
             
             LevelCompleteiontext.text = (int)currentPercentage + "%";

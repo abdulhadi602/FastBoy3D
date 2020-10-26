@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 9077433240044791233}
   m_Layer: 5
   m_Name: tip4
-  m_TagString: Untagged
+  m_TagString: tip4
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,7 +120,7 @@ GameObject:
   - component: {fileID: 9077433240240739600}
   m_Layer: 5
   m_Name: tip1
-  m_TagString: Untagged
+  m_TagString: tip1
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -641,7 +641,7 @@ GameObject:
   - component: {fileID: 9077433241266104195}
   m_Layer: 5
   m_Name: tip2
-  m_TagString: Untagged
+  m_TagString: tip2
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -904,11 +904,11 @@ GameObject:
   - component: {fileID: 9077433241727616209}
   m_Layer: 5
   m_Name: TipsCanvas
-  m_TagString: Untagged
+  m_TagString: TipsCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &9077433241727616206
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1441,7 +1441,7 @@ GameObject:
   - component: {fileID: 9077433242094061879}
   m_Layer: 5
   m_Name: tip3
-  m_TagString: Untagged
+  m_TagString: tip3
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -9,6 +9,20 @@ TagManager:
   - End
   - Ground
   - Coin
+  - FxTemporaire
+  - GameStartCanvas
+  - GameOverCanvas
+  - TipsCanvas
+  - tip1
+  - tip2
+  - tip3
+  - tip4
+  - LevelCompletionText
+  - Score
+  - SmashBtn
+  - DeathParticles
+  - GameManager
+  - BreakCoin
   layers:
   - Default
   - TransparentFX

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4215064607131152164}
   m_Layer: 0
   m_Name: ScoreTxt
-  m_TagString: Untagged
+  m_TagString: Score
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 953804816afb47e4196109fc79d865e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 1.2, y: 0, z: 0}
+  offset: {x: 1.2, y: 1.66, z: 0}
 --- !u!1 &4215064608635596647
 GameObject:
   m_ObjectHideFlags: 0

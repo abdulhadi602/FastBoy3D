@@ -23,6 +23,6 @@ public class FollowPlayertxt : MonoBehaviour
     void Update()
     {
         
-        transform.position = new Vector3(Player.transform.position.x, transform.position.y, Player.transform.position.z) + offset;
+        transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, Player.transform.position.z) + offset;
     }
 }

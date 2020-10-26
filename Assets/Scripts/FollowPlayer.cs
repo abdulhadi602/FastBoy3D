@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FollowPlayer : MonoBehaviour
 {
-    public Transform Player;
+    private Transform Player;
 
 
 
@@ -15,9 +15,9 @@ public class FollowPlayer : MonoBehaviour
     public Vector3 offset;
     private Vector3 desiredPosition;
     private Vector3 smoothedPosition;
-    void Start()
+    private void Awake()
     {
-        
+        Player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     // Update is called once per frame

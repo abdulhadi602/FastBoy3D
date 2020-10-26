@@ -5,13 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
-    public  GameObject GameOverCanvas,GameStartCanvas,TipsCanvas;
-    public GameObject[] tips;
+    private  GameObject GameOverCanvas,GameStartCanvas,TipsCanvas;
+    private GameObject[] tips;
 
     private static string TipsKey = "TipsRead";
+    private void Awake()
+    {
+        GameOverCanvas = GameObject.FindGameObjectWithTag("GameOverCanvas");
+        GameStartCanvas = GameObject.FindGameObjectWithTag("GameStartCanvas");
+        TipsCanvas = GameObject.FindGameObjectWithTag("TipsCanvas");
+        tips = new GameObject[4];
+        tips[0] = GameObject.FindGameObjectWithTag("tip1");
+        tips[1] = GameObject.FindGameObjectWithTag("tip2");
+        tips[2] = GameObject.FindGameObjectWithTag("tip3");
+        tips[3] = GameObject.FindGameObjectWithTag("tip4");
+    }
     private void Start()
     {
-        
+     
+        GameOverCanvas.SetActive(false);
+        TipsCanvas.SetActive(false);
+
+
         GameStartCanvas.SetActive(true);
       
         Time.timeScale = 0;
