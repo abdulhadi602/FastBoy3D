@@ -154,7 +154,7 @@ public class MonsterMovement : MonoBehaviour
     {
         if (!isChangingDirection)
         {
-            PlayMovementSound();
+            PlayMovementSound();       
             _moveX = -MoveX;
             FinalXvalue = transform.position.x + _moveX;
             isChangingDirection = true;
@@ -164,7 +164,7 @@ public class MonsterMovement : MonoBehaviour
     {
         if (!isChangingDirection)
         {
-            PlayMovementSound();
+            PlayMovementSound();            
             _moveX = MoveX;
             FinalXvalue = transform.position.x + _moveX;
             isChangingDirection = true;

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Google.Play.Review;
 
 public class Manager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class Manager : MonoBehaviour
     private GameObject[] tips;
 
     private static string TipsKey = "TipsRead";
+
     private void Awake()
     {
         GameOverCanvas = GameObject.FindGameObjectWithTag("GameOverCanvas");
@@ -22,22 +24,43 @@ public class Manager : MonoBehaviour
     }
     private void Start()
     {
-     
+
         GameOverCanvas.SetActive(false);
         TipsCanvas.SetActive(false);
 
 
         GameStartCanvas.SetActive(true);
-      
+
         Time.timeScale = 0;
         if (!PlayerPrefs.GetString(TipsKey).Equals("true"))
         {
             TipsCanvas.SetActive(true);
-            
+
         }
         else
         {
             TipsCanvas.SetActive(false);
+        }
+        if (SceneManager.GetActiveScene().buildIndex == 1 || SceneManager.GetActiveScene().buildIndex == 3 || SceneManager.GetActiveScene().buildIndex == 4) { 
+        var reviewManager = new ReviewManager();
+
+        // start preloading the review prompt in the background
+        var playReviewInfoAsyncOperation = reviewManager.RequestReviewFlow();
+
+        // define a callback after the preloading is done
+        playReviewInfoAsyncOperation.Completed += playReviewInfoAsync =>
+        {
+            if (playReviewInfoAsync.Error == ReviewErrorCode.NoError)
+            {
+                // display the review prompt
+                var playReviewInfo = playReviewInfoAsync.GetResult();
+                reviewManager.LaunchReviewFlow(playReviewInfo);
+            }
+            else
+            {
+                // handle error when loading review prompt
+            }
+        };
         }
     }
     private void Update()

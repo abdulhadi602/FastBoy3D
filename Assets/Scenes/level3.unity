@@ -138,14 +138,6 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 690403882}
-    - target: {fileID: 556865862, guid: efac8aa95877c724396dc57a70707d4c, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1740243669714226712, guid: efac8aa95877c724396dc57a70707d4c, type: 3}
-      propertyPath: m_Text
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5666768801565498660, guid: efac8aa95877c724396dc57a70707d4c, type: 3}
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -242,14 +234,6 @@ PrefabInstance:
       propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 690403882}
-    - target: {fileID: 6225416445874646589, guid: efac8aa95877c724396dc57a70707d4c, type: 3}
-      propertyPath: m_Name
-      value: PowerUpNo
-      objectReference: {fileID: 0}
-    - target: {fileID: 6897033475018605886, guid: efac8aa95877c724396dc57a70707d4c, type: 3}
-      propertyPath: m_Color.a
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: efac8aa95877c724396dc57a70707d4c, type: 3}
 --- !u!1001 &292106997
@@ -259,10 +243,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 831172936, guid: db8dab55c226e044aadb2e3f287285ef, type: 3}
-      propertyPath: offset.z
-      value: -23
-      objectReference: {fileID: 0}
     - target: {fileID: 1527325212050980713, guid: db8dab55c226e044aadb2e3f287285ef, type: 3}
       propertyPath: m_Name
       value: Camera
@@ -601,10 +581,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TipsCanvas
       objectReference: {fileID: 0}
-    - target: {fileID: 9077433241727616210, guid: e9cc44e46ef85784babd76bba243ae32, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9077433242093435099, guid: e9cc44e46ef85784babd76bba243ae32, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -714,7 +690,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-280144
+  m_Name: pb_Mesh-313182
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1248,18 +1224,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2068456619, guid: 128a80094e00bf34fa2555766a7eea0e, type: 3}
-      propertyPath: m_Volume
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2068456620, guid: 128a80094e00bf34fa2555766a7eea0e, type: 3}
-      propertyPath: m_Volume
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2068456621, guid: 128a80094e00bf34fa2555766a7eea0e, type: 3}
-      propertyPath: m_Volume
-      value: 0.15
-      objectReference: {fileID: 0}
     - target: {fileID: 1975194375736644, guid: 128a80094e00bf34fa2555766a7eea0e, type: 3}
       propertyPath: m_Name
       value: Boximon Fiery
