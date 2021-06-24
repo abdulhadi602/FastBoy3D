@@ -15,10 +15,7 @@ public class FollowPlayer : MonoBehaviour
     public Vector3 offset;
     private Vector3 desiredPosition;
     private Vector3 smoothedPosition;
-    private void Awake()
-    {
-        Player = GameObject.FindGameObjectWithTag("Player").transform;
-    }
+   
 
     // Update is called once per frame
     void Update()
